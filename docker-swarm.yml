@@ -1,0 +1,31 @@
+version: '3.0'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+    - '3000:3000'
+    env_file:
+    - docker.env
+    depends_on:
+    - db
+    deploy:
+      replicas: 1
+      restart: 'on-failure'
+
+  db:
+    image: postgres
+    ports:
+    - '5432:5432'
+    environment:
+    - POSTGRES_USERNAME=user1
+    - POSTGRES_PASSWORD=user_password
+    deploy:
+      replicas: 1
+      restart: 'on-failure'
+    volumes:
+    - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
