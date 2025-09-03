@@ -1,0 +1,102 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Falcon Auth API",
+    "description": "Auth ",
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "description": "endpoint to authenticate user and return token for accessing other resources",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type":"object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "token": {
+                      "type": "string",
+                      "example": "*****"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/signup": {
+      "post": {
+        "description": "allow users to create a account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema": {
+                "type":"object",
+                "properties": {
+                  "email":{
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type":"string"
+                  }
+                },
+                "required": ["email","name","password"]
+              }              
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "successfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "status": {
+                      "type":"string"
+                    },
+                    "data": {
+                      "type":"object"                      
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
