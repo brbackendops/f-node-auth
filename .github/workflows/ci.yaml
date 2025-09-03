@@ -58,7 +58,7 @@ jobs:
       
       - name: load into db
         if: success() && steps.make_migrations.outcome == 'success'
-        run: npm migrate deploy
+        run: npx prisma migrate deploy
         
       - name: run & check
         run: |
