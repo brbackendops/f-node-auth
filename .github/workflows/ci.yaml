@@ -1,4 +1,4 @@
-name: Python App Pipeline
+name: Nodejs App Pipeline
 on:
   workflow_dispatch: null
   push:
@@ -16,13 +16,15 @@ jobs:
     env:
       DB_NAME: falcondb
       DB_HOST: postgres
-      DB_URL: 'postgresql://postgres:password@postgres:5432/falcondb?connection_limit=10&pool_timeout=20'
+      DB_URL: 'postgresql://${{ vars.POSTGRES_USERNAME }}:${{ secrets.POSTGRES_PASSWORD }}@postgres:5432/falcondb?connection_limit=10&pool_timeout=20'
       DB_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       DB_USERNAME: ${{ vars.POSTGRES_USERNAME }}
       DB_PORT: 5432
     services:
       postgres:
         image: postgres
+        ports:
+          - 5432:5432
         env:
           POSTGRES_DB: ${{env.DB_NAME}}
           POSTGRES_USER: ${{ vars.POSTGRES_USERNAME }}
