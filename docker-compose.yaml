@@ -10,6 +10,8 @@ services:
       - docker.env
     depends_on:
       - db
+    networks:
+      - falcon-net
 
   db:
     image: postgres
@@ -20,6 +22,11 @@ services:
       - POSTGRES_PASSWORD=user_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - falcon-net      
 
 volumes:
   postgres_data:
+
+networks:
+  falcon-net:
