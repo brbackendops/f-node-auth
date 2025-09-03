@@ -25,10 +25,22 @@ const userCnt = new UserController(userSrv);
 // middlewares
 const authenticate = require('../middlewares/auth');
 
+// rate limiter
+const rateLimiter = require('express-rate-limit')
+
+// signup limiter
+// 10 requests are allowed per 4 minutes
+// alg: fixed window
+const registerLimiter = rateLimiter({
+    windowMs: 4 * 60 * 1000,
+    max: 10,
+    message: "too many requests, please try again later"
+})
+
 // user routes
 
 router.route('/').get(authenticate,userCnt.getAll.bind(userCnt));
-router.route('/signup').post(validate(userCreationSchema),userCnt.create.bind(userCnt));
+router.route('/signup').post(validate(userCreationSchema),registerLimiter,userCnt.create.bind(userCnt));
 router.route('/login').post(validate(userLoginSchema),userCnt.login.bind(userCnt));
 router.route('/:id').get(userCnt.get.bind(userCnt));
 
